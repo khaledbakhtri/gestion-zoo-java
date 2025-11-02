@@ -1,4 +1,4 @@
-package tn.esprit.gestionzoo.entities;
+package entities;
 
 public class Animal {
     private String family;
@@ -11,8 +11,8 @@ public class Animal {
 
     public Animal(String family, String name, int age, boolean isMammal) {
         this.family = family;
-        this.name = name;
-        setAge(age); // Instruction 18: Validation de l'âge
+        setName(name); // Added validation
+        setAge(age);
         this.isMammal = isMammal;
     }
 
@@ -22,22 +22,28 @@ public class Animal {
     public int getAge() { return age; }
     public boolean isMammal() { return isMammal; }
 
-    // Setters avec validation (Instruction 18)
+    // Setters avec validation
     public void setFamily(String family) {
-        this.family = family;
+        if (family != null && !family.trim().isEmpty()) {
+            this.family = family;
+        } else {
+            throw new IllegalArgumentException("La famille ne peut pas être vide!");
+        }
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name != null && !name.trim().isEmpty()) {
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Le nom ne peut pas être vide!");
+        }
     }
 
     public void setAge(int age) {
-        // Instruction 18: Un animal ne peut pas avoir un âge négatif
         if (age >= 0) {
             this.age = age;
         } else {
-            System.out.println("Erreur: L'âge ne peut pas être négatif! Age donné: " + age);
-            this.age = 0; // Valeur par défaut
+            throw new IllegalArgumentException("L'âge ne peut pas être négatif! Age donné: " + age);
         }
     }
 
@@ -45,17 +51,17 @@ public class Animal {
         isMammal = mammal;
     }
 
-    // Méthode equals pour comparer les animaux
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Animal animal = (Animal) obj;
-        return name.equals(animal.name);
+        return name != null && name.equals(animal.name);
     }
 
     @Override
     public String toString() {
-        return "Animal{family='" + family + "', name='" + name + "', age=" + age + ", isMammal=" + isMammal + "}";
+        return String.format("Animal{Famille: '%s', Nom: '%s', Âge: %d, Mammifère: %s}",
+                family, name, age, isMammal ? "Oui" : "Non");
     }
 }
