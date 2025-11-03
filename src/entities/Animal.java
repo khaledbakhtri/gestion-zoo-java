@@ -6,13 +6,14 @@ public class Animal {
     private int age;
     private boolean isMammal;
 
-    public Animal() {
-    }
+    public Animal() {}
 
-    public Animal(String family, String name, int age, boolean isMammal) {
+    // Constructor must declare that it can throw InvalidAgeException
+    public Animal(String family, String name, int age, boolean isMammal) throws InvalidAgeException
+ {
         this.family = family;
-        setName(name); // Added validation
-        setAge(age);
+        setName(name);
+        setAge(age); // may throw InvalidAgeException
         this.isMammal = isMammal;
     }
 
@@ -22,7 +23,7 @@ public class Animal {
     public int getAge() { return age; }
     public boolean isMammal() { return isMammal; }
 
-    // Setters avec validation
+    // Setters
     public void setFamily(String family) {
         if (family != null && !family.trim().isEmpty()) {
             this.family = family;
@@ -39,11 +40,12 @@ public class Animal {
         }
     }
 
-    public void setAge(int age) {
+    // 👇 FIXED: throw custom exception instead of IllegalArgumentException
+    public void setAge(int age) throws InvalidAgeException {
         if (age >= 0) {
             this.age = age;
         } else {
-            throw new IllegalArgumentException("L'âge ne peut pas être négatif! Age donné: " + age);
+            throw new InvalidAgeException("L'âge ne peut pas être négatif! Age donné: " + age);
         }
     }
 

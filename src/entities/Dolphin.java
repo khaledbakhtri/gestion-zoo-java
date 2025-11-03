@@ -7,7 +7,8 @@ public class Dolphin extends Aquatic {
         super();
     }
 
-    public Dolphin(String family, String name, int age, boolean isMammal, String habitat, float swimmingSpeed) {
+    // ✅ Must declare throws InvalidAgeException
+    public Dolphin(String family, String name, int age, boolean isMammal, String habitat, float swimmingSpeed) throws InvalidAgeException {
         super(family, name, age, isMammal, habitat);
         this.swimmingSpeed = swimmingSpeed;
     }

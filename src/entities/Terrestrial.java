@@ -7,7 +7,8 @@ public class Terrestrial extends Animal {
         super();
     }
 
-    public Terrestrial(String family, String name, int age, boolean isMammal, int nbrLegs) {
+    // ✅ Must declare throws InvalidAgeException
+    public Terrestrial(String family, String name, int age, boolean isMammal, int nbrLegs) throws InvalidAgeException {
         super(family, name, age, isMammal);
         this.nbrLegs = nbrLegs;
     }

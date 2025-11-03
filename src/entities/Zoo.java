@@ -1,5 +1,8 @@
 package entities;
 
+import entities.ZooFullException;
+import entities.InvalidAgeException;
+
 public class Zoo {
     private Animal[] animals;
     private String name;
@@ -53,26 +56,28 @@ public class Zoo {
                 name, city, nbrCages, animalCount);
     }
 
-    public boolean addAnimal(Animal animal) {
+    // Instruction 32–34 compliant version
+    public void addAnimal(Animal animal) throws ZooFullException, InvalidAgeException {
         if (animal == null) {
-            System.out.println("❌ Erreur: L'animal ne peut pas être null!");
-            return false;
+            throw new IllegalArgumentException("L'animal ne peut pas être null!");
         }
 
         if (isZooFull()) {
-            System.out.println("❌ Le zoo est plein! Impossible d'ajouter " + animal.getName());
-            return false;
+            throw new ZooFullException("Le zoo est plein! Impossible d'ajouter " + animal.getName());
+        }
+
+        if (animal.getAge() < 0) {
+            throw new InvalidAgeException("L'âge de l'animal " + animal.getName() + " ne peut pas être négatif!");
         }
 
         if (searchAnimal(animal) != -1) {
             System.out.println("❌ L'animal " + animal.getName() + " existe déjà dans le zoo!");
-            return false;
+            return;
         }
 
         animals[animalCount] = animal;
         animalCount++;
         System.out.println("✅ Animal " + animal.getName() + " ajouté avec succès!");
-        return true;
     }
 
     public void displayAnimals() {
@@ -89,7 +94,6 @@ public class Zoo {
 
     public int searchAnimal(Animal animal) {
         if (animal == null) return -1;
-
         for (int i = 0; i < animalCount; i++) {
             if (animals[i] != null && animals[i].equals(animal)) {
                 return i;
@@ -98,10 +102,9 @@ public class Zoo {
         return -1;
     }
 
-    // Surcharge de searchAnimal pour rechercher par nom
+    // Recherche par nom
     public int searchAnimal(String animalName) {
         if (animalName == null || animalName.trim().isEmpty()) return -1;
-
         for (int i = 0; i < animalCount; i++) {
             if (animals[i] != null && animals[i].getName().equalsIgnoreCase(animalName.trim())) {
                 return i;
@@ -117,7 +120,6 @@ public class Zoo {
             return false;
         }
 
-        // Décalage des éléments
         for (int i = index; i < animalCount - 1; i++) {
             animals[i] = animals[i + 1];
         }
@@ -127,7 +129,7 @@ public class Zoo {
         return true;
     }
 
-    // Surcharge de removeAnimal pour supprimer par nom
+    // Suppression par nom
     public boolean removeAnimal(String animalName) {
         int index = searchAnimal(animalName);
         if (index == -1) {
@@ -166,7 +168,6 @@ public class Zoo {
         }
     }
 
-    // Méthode pour calculer le taux de remplissage
     public double getFillRate() {
         return (double) animalCount / nbrCages * 100;
     }
