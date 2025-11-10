@@ -25,6 +25,16 @@ public class Penguin extends Aquatic {
         }
     }
 
+    // ✅ Redéfinition de la méthode eatMeat pour un comportement spécifique
+    @Override
+    public void eatMeat(Food meat) {
+        if (meat == Food.MEAT) {
+            System.out.println(this.getName() + " (pingouin) mange du poisson à une profondeur de " + swimmingDepth + " mètres");
+        } else {
+            System.out.println(this.getName() + " (pingouin) ne mange que de la viande (poisson) - pas de " + meat);
+        }
+    }
+
     @Override
     public String toString() {
         return super.toString() + ", Profondeur de nage: " + swimmingDepth + " mètres";

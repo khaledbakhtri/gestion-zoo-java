@@ -5,7 +5,6 @@ public class Animal {
     private String name;
     private int age;
     private boolean isMammal;
-
     public Animal() {}
 
     // Constructor must declare that it can throw InvalidAgeException
@@ -15,7 +14,8 @@ public class Animal {
         setName(name);
         setAge(age); // may throw InvalidAgeException
         this.isMammal = isMammal;
-    }
+ }
+
 
     // Getters
     public String getFamily() { return family; }
